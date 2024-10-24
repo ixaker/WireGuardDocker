@@ -5,7 +5,7 @@ read -sp "Введите пароль для веб-интерфейса: " PASS
 echo
 
 # Генерация bcrypt-хеша пароля
-PASSWORD_HASH=$(docker run --rm ghcr.io/wg-easy/wg-easy wgpw "$PASSWORD")
+PASSWORD_HASH=$(docker run --rm ghcr.io/wg-easy/wg-easy wgpw "$PASSWORD" | tr -d '\r')
 
 # Вывод сгенерированного хеша для отладки
 echo "Сгенерированный bcrypt-хеш: $PASSWORD_HASH"
