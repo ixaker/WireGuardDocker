@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# Получение внешнего IP-адреса
+DEFAULT_WG_HOST=$(curl -s https://api.ipify.org)
+
+# Спросить IP-адрес для WG_HOST, предложив внешний IP по умолчанию
+read -p "Введите IP-адрес для WG_HOST (по умолчанию: $DEFAULT_WG_HOST): " WG_HOST
+WG_HOST=${WG_HOST:-$DEFAULT_WG_HOST}
+
 # Спросить пароль у пользователя
 read -sp "Введите пароль для веб-интерфейса: " PASSWORD
 echo
@@ -11,7 +18,7 @@ PASSWORD_HASH=$(docker run --rm ghcr.io/wg-easy/wg-easy wgpw "$PASSWORD" | grep 
 docker run --detach \
   --name wg-easy \
   --env LANG=ua \
-  --env WG_HOST=185.233.36.112 \
+  --env WG_HOST="$WG_HOST" \
   --env "PASSWORD_HASH=$PASSWORD_HASH" \
   --env PORT=51831 \
   --env WG_PORT=51830 \
@@ -26,3 +33,6 @@ docker run --detach \
   --sysctl 'net.ipv4.ip_forward=1' \
   --restart unless-stopped \
   ghcr.io/wg-easy/wg-easy
+
+# Сообщение о том, что контейнер запущен и адрес для доступа в браузере
+echo "Контейнер wg-easy успешно запущен. Доступ к веб-интерфейсу: http://$WG_HOST:51831/"
