@@ -4,18 +4,15 @@
 read -sp "Введите пароль для веб-интерфейса: " PASSWORD
 echo
 
-# Генерация bcrypt-хеша пароля
-PASSWORD_HASH=$(docker run --rm ghcr.io/wg-easy/wg-easy wgpw "$PASSWORD" | tr -d '\r')
-
-# Вывод сгенерированного хеша для отладки
-echo "Сгенерированный bcrypt-хеш: $PASSWORD_HASH"
+# Генерация bcrypt-хеша пароля и удаление лишних символов
+PASSWORD_HASH=$(docker run --rm ghcr.io/wg-easy/wg-easy wgpw "$PASSWORD" | grep -o '\$2[aby]\$[0-9]*\$.*' | tr -d "'")
 
 # Запуск контейнера wg-easy с использованием сгенерированного хеша
 docker run --detach \
   --name wg-easy \
   --env LANG=ua \
   --env WG_HOST=185.233.36.112 \
-  --env PASSWORD_HASH="$PASSWORD_HASH" \
+  --env "PASSWORD_HASH=$PASSWORD_HASH" \
   --env PORT=51831 \
   --env WG_PORT=51830 \
   --env WG_ALLOWED_IPS='10.8.0.0/24' \
