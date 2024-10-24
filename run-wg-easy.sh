@@ -7,6 +7,9 @@ echo
 # Генерация bcrypt-хеша пароля
 PASSWORD_HASH=$(docker run --rm ghcr.io/wg-easy/wg-easy wgpw "$PASSWORD")
 
+# Вывод сгенерированного хеша для отладки
+echo "Сгенерированный bcrypt-хеш: $PASSWORD_HASH"
+
 # Запуск контейнера wg-easy с использованием сгенерированного хеша
 docker run --detach \
   --name wg-easy \
