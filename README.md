@@ -14,6 +14,8 @@ https://github.com/wg-easy/wg-easy
 2. Запуск приложения
     ```shell
     bash <(curl -sSL https://raw.githubusercontent.com/ixaker/WireGuardDocker/refs/heads/main/run-wg-easy.sh)
+    # или
+    bash <(curl -sSL https://ur0.jp/ZHLHf)
 
 3. Зайдите в веб интерфейс по адресу `http://<ваш ip>:51821`.
 
@@ -33,4 +35,8 @@ https://github.com/wg-easy/wg-easy
     
     # Удалить правило, запрещающее доступ к порту 51831 с любых других адресов
     iptables -D DOCKER-USER -p tcp --dport 51831 -j DROP
+    ```
+6. Остановить и удалить контейнер
+    ```shell
+    docker stop wg-easy && docker rm wg-easy
     ```
