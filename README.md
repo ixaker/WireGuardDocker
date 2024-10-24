@@ -8,6 +8,8 @@ https://github.com/wg-easy/wg-easy
     ```shell
     apt install curl -y
     curl -sSL https://get.docker.com | sh
+    sudo usermod -aG docker $(whoami)
+    exit
     ```
 2. Запуск приложения
     ```shell
